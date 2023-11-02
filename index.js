@@ -15,8 +15,30 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
-app.get("/", (requisicao, resposta) => {
-    resposta.reder("home")
+app.post("/register/save", (request, response) => {
+   const { title, pageqty } =request.body
+})
+
+app.get("/register", (requet, response) => {
+    response.render("register")
+
+    const query = `
+        INSERT INTO books (titli, pageqty)
+        VALUES("${title}", "${pageqty}")
+    
+    `
+    conn.query(query, (error) =>{
+        if (erro){
+            console.log(error)
+            return
+        }
+
+
+    })
+})
+
+app.get("/", (request, response) => {
+    response.reder("home")
 })
 
 const conn = mysql.createConnection({
@@ -30,8 +52,10 @@ const conn = mysql.createConnection({
 
 conn.connect((error) => {
     if (error) {
-        console.log("conectado ao mysql!")
+        console.log(error)
+       return
+    }
 
-        app.listen(3000, () =>{
+    app.listen(3000, () =>{
             console.log("servidor rodando na porta 3000!")
-        })
+        })})
